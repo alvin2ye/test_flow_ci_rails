@@ -1,0 +1,28 @@
+version: "2"
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+      - ".:/app"
+  main:
+    image: agideo/ruby:2.3-d
+    volumes:
+      - ".:/app"
+      - "ruby_bundle:/usr/local/bundle"
+      - "rails_log:/app/log"
+      - "rails_tmp:/app/tmp"
+      - "/Users/alvin/.ssh/id_rsa:/root/.ssh/id_rsa"
+    environment:
+      - DOCKER_ENV=development
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  ruby_bundle:
+  rails_tmp:
+  rails_log:
